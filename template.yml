@@ -14,3 +14,5 @@ Resources:
             Name: VaccineTwitterBot
             Description: Daily event for Vaccine Twitter art bot
             Enabled: True
+    Metadata:
+      BuildMethod: makefile
