@@ -1,0 +1,31 @@
+{
+    "diseases": [
+        "Cholera",
+        "Dengue fever",
+        "Diphtheria",
+        "Haemophilus influenzae type b",
+        "Hepatitis A",
+        "Hepatitis B",
+        "Hepatitis E",
+        "Human papilloma-virus",
+        "Influenza",
+        "Japanese encephalitis",
+        "Malaria",
+        "Measles",
+        "Meningococcal disease",
+        "Mumps",
+        "Pneumococcal disease",
+        "Pertussis",
+        "Poliomyelitis",
+        "Rabies",
+        "Rotavirus gastroenteritis",
+        "Rubella",
+        "Tetanus",
+        "Tick-borne encephalitis",
+        "Tuberculosis",
+        "Typhoid fever",
+        "Varicella",
+        "Yellow fever",
+        "Shingles (Herpes Zoster)"
+    ]
+}
