@@ -1,0 +1,16 @@
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  VaccineTweeter:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: go1.x
+      Handler: vaccine-bot
+      CodeUri: ./vaccine-bot
+      Events:
+        CWCron:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 day)
+            Name: VaccineTwitterBot
+            Description: Daily event for Vaccine Twitter art bot
+            Enabled: True

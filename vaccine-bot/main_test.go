@@ -1,9 +1,17 @@
 package main
 
 import (
+	"io/ioutil"
+	"log"
+	"os"
 	"reflect"
 	"testing"
 )
+
+func TestMain(m *testing.M) {
+	log.SetOutput(ioutil.Discard)
+	os.Exit(m.Run())
+}
 
 func TestGetDiseaseListFromFile(t *testing.T) {
 	tests := map[string]struct {
@@ -64,9 +72,19 @@ func TestGetDisease(t *testing.T) {
 			}
 
 			if !test.shouldErr && !stringInSlice(result, test.expected) {
-				t.Fatalf("Result not in expect list\nGot: %s\nExpected one from: %v", result, test.expected)
+				t.Fatalf("Result not in expected list\nGot: %s\nExpected one from: %v", result, test.expected)
 			}
 		})
+	}
+}
+
+func TestBuildTweet(t *testing.T) {
+	testDisease := "foobar"
+	expected := "Vaccinate your kids against foobar"
+	result := buildTweet(testDisease)
+
+	if result != expected {
+		t.Fatalf("Result did not match expected\nGot: %s\nExpected: %s", result, expected)
 	}
 }
 

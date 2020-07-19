@@ -20,6 +20,7 @@ type diseaseList struct {
 }
 
 func getDiseaseListFromFile(diseaseFilename string) (*diseaseList, error) {
+	log.Printf("Creating new disease list from file: %s", diseaseFilename)
 	diseases := new(diseaseList)
 	diseaseFile, err := os.Open(diseaseFilename)
 
@@ -49,6 +50,7 @@ func getDiseaseListFromFile(diseaseFilename string) (*diseaseList, error) {
 }
 
 func (dl *diseaseList) getDisease() (string, error) {
+	log.Print("Getting random disease from list of diseases")
 	rand.Seed(time.Now().UnixNano())
 
 	if len(dl.Diseases) == 0 {
@@ -59,7 +61,8 @@ func (dl *diseaseList) getDisease() (string, error) {
 }
 
 func buildTweet(disease string) string {
-	return ""
+	log.Printf("Generating new tweet with disease: %s", disease)
+	return fmt.Sprintf("Vaccinate your kids against %s", disease)
 }
 
 func sendTweet() {
@@ -68,6 +71,21 @@ func sendTweet() {
 
 func handleRequest(ctx context.Context, req events.CloudWatchEvent) {
 	log.Printf("Handling new request")
+	dl, err := getDiseaseListFromFile("diseases.json")
+
+	if err != nil {
+		log.Panic(err.Error())
+	}
+
+	disease, err := dl.getDisease()
+
+	if err != nil {
+		log.Panic(err.Error())
+	}
+
+	tweet := buildTweet(disease)
+
+	log.Printf("Created new tweet: %s", tweet)
 }
 
 func main() {
