@@ -8,12 +8,14 @@ on:
 
 jobs:
   test:
-    name: Running unit tests
+    name: Test code
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-go@v2
         with:
           go-version: '^1.14.6'
-      - run: go get -dv ./vaccine-bot
-      - run: go test -v ./vaccine-bot
+      - name: Download dependencies
+        run: go get -d -v ./vaccine-bot
+      - name: Running unit tests
+        run: go test -v ./vaccine-bot
