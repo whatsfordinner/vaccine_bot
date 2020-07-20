@@ -13,10 +13,30 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/dghubble/go-twitter/twitter"
+	"github.com/dghubble/oauth1"
 )
 
 type diseaseList struct {
 	Diseases []string `json:"diseases"`
+}
+
+type twitterConfig struct {
+	consumerKey    string
+	consumerSecret string
+	accessToken    string
+	accessSecret   string
+}
+
+func getTwitterConfig() (*twitterConfig, error) {
+	newTwitterConfig := new(twitterConfig)
+
+	newTwitterConfig.consumerKey = os.Getenv("TWITTER_CONSUMER_KEY")
+	newTwitterConfig.consumerSecret = os.Getenv("TWITTER_CONSUMER_SECRET")
+	newTwitterConfig.accessToken = os.Getenv("TWITTER_ACCESS_TOKEN")
+	newTwitterConfig.accessSecret = os.Getenv("TWITTER_ACCESS_SECRET")
+
+	return newTwitterConfig, nil
 }
 
 func getDiseaseListFromFile(diseaseFilename string) (*diseaseList, error) {
@@ -65,8 +85,29 @@ func buildTweet(disease string) string {
 	return fmt.Sprintf("Vaccinate your kids against %s", disease)
 }
 
-func sendTweet() {
+func sendTweet(newTweet string) error {
+	twitterConfig, err := getTwitterConfig()
 
+	if err != nil {
+		return err
+	}
+
+	log.Print("Creating new Twitter client")
+	config := oauth1.NewConfig(twitterConfig.consumerKey, twitterConfig.consumerSecret)
+	token := oauth1.NewToken(twitterConfig.accessToken, twitterConfig.accessSecret)
+	httpClient := config.Client(oauth1.NoContext, token)
+	twitterClient := twitter.NewClient(httpClient)
+
+	log.Print("Sending tweet")
+	tweet, resp, err := twitterClient.Statuses.Update(newTweet, nil)
+
+	if err != nil {
+		return err
+	}
+
+	log.Printf("Received response:\n\t%v\n\t%v", tweet, resp)
+
+	return nil
 }
 
 func handleRequest(ctx context.Context, req events.CloudWatchEvent) {

@@ -14,5 +14,11 @@ Resources:
             Name: VaccineTwitterBot
             Description: Daily event for Vaccine Twitter art bot
             Enabled: True
+      Environment:
+        Variables:
+          TWITTER_CONSUMER_KEY:
+          TWITTER_CONSUMER_SECRET:
+          TWITTER_ACCESS_TOKEN:
+          TWITTER_ACCESS_SECRET:
     Metadata:
       BuildMethod: makefile
