@@ -30,11 +30,36 @@ type twitterConfig struct {
 
 func getTwitterConfig() (*twitterConfig, error) {
 	newTwitterConfig := new(twitterConfig)
+	errorString := "Required envrionment variable %s is not defined"
 
-	newTwitterConfig.consumerKey = os.Getenv("TWITTER_CONSUMER_KEY")
-	newTwitterConfig.consumerSecret = os.Getenv("TWITTER_CONSUMER_SECRET")
-	newTwitterConfig.accessToken = os.Getenv("TWITTER_ACCESS_TOKEN")
-	newTwitterConfig.accessSecret = os.Getenv("TWITTER_ACCESS_SECRET")
+	newConsumerKey, exists := os.LookupEnv("TWITTER_CONSUMER_KEY")
+
+	if !exists {
+		return nil, fmt.Errorf(errorString, "TWITTER_CONSUMER_KEY")
+	}
+
+	newConsumerSecret, exists := os.LookupEnv("TWITTER_CONSUMER_SECRET")
+
+	if !exists {
+		return nil, fmt.Errorf(errorString, "TWITTER_CONSUMER_SECRET")
+	}
+
+	newAccessToken, exists := os.LookupEnv("TWITTER_ACCESS_TOKEN")
+
+	if !exists {
+		return nil, fmt.Errorf(errorString, "TWITTER_ACCESS_TOKEN")
+	}
+
+	newAccessSecret, exists := os.LookupEnv("TWITTER_ACCESS_SECRET")
+
+	if !exists {
+		return nil, fmt.Errorf(errorString, "TWITTER_ACCESS_SECRET")
+	}
+
+	newTwitterConfig.consumerKey = newConsumerKey
+	newTwitterConfig.consumerSecret = newConsumerSecret
+	newTwitterConfig.accessToken = newAccessToken
+	newTwitterConfig.accessSecret = newAccessSecret
 
 	return newTwitterConfig, nil
 }

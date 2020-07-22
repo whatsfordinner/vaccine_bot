@@ -13,6 +13,71 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
+func TestGetTwitterConfig(t *testing.T) {
+	tests := map[string]struct {
+		consumerKeySet    bool
+		consumerSecretSet bool
+		accessTokenSet    bool
+		accessSecretSet   bool
+		shouldErr         bool
+	}{
+		"all variables set":       {true, true, true, true, false},
+		"consumer key not set":    {false, true, true, true, true},
+		"consumer secret not set": {true, false, true, true, true},
+		"access token not set":    {true, true, false, true, true},
+		"access secret not set":   {true, true, true, false, true},
+	}
+
+	expected := &twitterConfig{
+		consumerKey:    "foo",
+		consumerSecret: "foo",
+		accessToken:    "foo",
+		accessSecret:   "foo",
+	}
+
+	for name, test := range tests {
+		t.Run(name, func(t *testing.T) {
+			if test.consumerKeySet {
+				os.Setenv("TWITTER_CONSUMER_KEY", "foo")
+			} else {
+				os.Unsetenv("TWITTER_CONSUMER_KEY")
+			}
+
+			if test.consumerSecretSet {
+				os.Setenv("TWITTER_CONSUMER_SECRET", "foo")
+			} else {
+				os.Unsetenv("TWITTER_CONSUMER_SECRET")
+			}
+
+			if test.accessTokenSet {
+				os.Setenv("TWITTER_ACCESS_TOKEN", "foo")
+			} else {
+				os.Unsetenv("TWITTER_ACCESS_TOKEN")
+			}
+
+			if test.accessSecretSet {
+				os.Setenv("TWITTER_ACCESS_SECRET", "foo")
+			} else {
+				os.Unsetenv("TWITTER_ACCESS_SECRET")
+			}
+
+			result, err := getTwitterConfig()
+
+			if test.shouldErr && err == nil {
+				t.Fatalf("Expected error, but no error occurred")
+			}
+
+			if !test.shouldErr && err != nil {
+				t.Fatalf("Expected no error, but got: %s", err.Error())
+			}
+
+			if !reflect.DeepEqual(result, expected) && !test.shouldErr {
+				t.Fatalf("Results did not match\nGot: %+v\nExpected: %+v", result, expected)
+			}
+		})
+	}
+}
+
 func TestGetDiseaseListFromFile(t *testing.T) {
 	tests := map[string]struct {
 		filename  string
