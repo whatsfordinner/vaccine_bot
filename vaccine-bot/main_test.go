@@ -13,48 +13,6 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func TestGetParameter(t *testing.T) {
-	tests := map[string]struct {
-		paramSetInEnv bool
-		paramSetInSSM bool
-		shouldErr     bool
-	}{
-		"parameter set in environment": {true, false, false},
-		"parameter set in SSM":         {false, true, true},
-		"parameter not set":            {false, false, true},
-	}
-
-	expected := "foobar"
-
-	for name, test := range tests {
-		t.Run(name, func(t *testing.T) {
-			if test.paramSetInEnv {
-				os.Setenv("TEST_PARAM", "foobar")
-			} else {
-				os.Unsetenv("TEST_PARAM")
-			}
-
-			if test.paramSetInSSM {
-				// not yet implemented
-			}
-
-			result, err := getParameter("TEST_PARAM")
-
-			if test.shouldErr && err == nil {
-				t.Fatalf("Expecter error, but no error occurred")
-			}
-
-			if !test.shouldErr && err != nil {
-				t.Fatalf("Expected no error, but got: %s", err.Error())
-			}
-
-			if result != expected && err == nil {
-				t.Fatalf("Results did not match\nGot: %s\nExpected: %s", result, expected)
-			}
-		})
-	}
-}
-
 func TestGetTwitterConfig(t *testing.T) {
 	tests := map[string]struct {
 		consumerKeySet    bool
