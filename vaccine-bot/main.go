@@ -30,30 +30,29 @@ type twitterConfig struct {
 
 func getTwitterConfig() (*twitterConfig, error) {
 	newTwitterConfig := new(twitterConfig)
-	errorString := "Required envrionment variable %s is not defined"
 
-	newConsumerKey, exists := os.LookupEnv("TWITTER_CONSUMER_KEY")
+	newConsumerKey, err := getParameter("TWITTER_CONSUMER_KEY")
 
-	if !exists {
-		return nil, fmt.Errorf(errorString, "TWITTER_CONSUMER_KEY")
+	if err != nil {
+		return nil, err
 	}
 
-	newConsumerSecret, exists := os.LookupEnv("TWITTER_CONSUMER_SECRET")
+	newConsumerSecret, err := getParameter("TWITTER_CONSUMER_SECRET")
 
-	if !exists {
-		return nil, fmt.Errorf(errorString, "TWITTER_CONSUMER_SECRET")
+	if err != nil {
+		return nil, err
 	}
 
-	newAccessToken, exists := os.LookupEnv("TWITTER_ACCESS_TOKEN")
+	newAccessToken, err := getParameter("TWITTER_ACCESS_TOKEN")
 
-	if !exists {
-		return nil, fmt.Errorf(errorString, "TWITTER_ACCESS_TOKEN")
+	if err != nil {
+		return nil, err
 	}
 
-	newAccessSecret, exists := os.LookupEnv("TWITTER_ACCESS_SECRET")
+	newAccessSecret, err := getParameter("TWITTER_ACCESS_SECRET")
 
-	if !exists {
-		return nil, fmt.Errorf(errorString, "TWITTER_ACCESS_SECRET")
+	if err != nil {
+		return nil, err
 	}
 
 	newTwitterConfig.consumerKey = newConsumerKey
@@ -62,6 +61,21 @@ func getTwitterConfig() (*twitterConfig, error) {
 	newTwitterConfig.accessSecret = newAccessSecret
 
 	return newTwitterConfig, nil
+}
+
+func getParameter(parameter string) (string, error) {
+	value, exists := os.LookupEnv(parameter)
+
+	// Environment variables take priority
+	if exists {
+		log.Printf("Overriding %s with value found in environment", parameter)
+		return value, nil
+	}
+
+	// If the parameter isn't in the environment, use systems manager
+
+	return "", fmt.Errorf("Unable to find parameter %s", parameter)
+
 }
 
 func getDiseaseListFromFile(diseaseFilename string) (*diseaseList, error) {
