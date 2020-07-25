@@ -40,7 +40,7 @@ jobs:
       - name: Updating Secrets Manager secret value
         env:
           TWITTER_SECRET: ${{ secrets.TWITTER_SECRET_OBJECT }}
-        run: ./scripts/update_secret.sh
+        run: .github/scripts/update_secret.sh
       - name: Building lambda deployment package
         run: sam build
       - name: Deploying lambda
