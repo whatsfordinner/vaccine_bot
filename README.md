@@ -4,4 +4,4 @@
 
 A simple twitter bot written in Go that will tweet about immunising your child against a vaccine-preventable disease as recommended by the World Health Organisation.  
 
-Uses AWS SAM CLI to package and deploy the code as a Lambda function that is invoked daily by a CloudWatch event.
+Uses AWS SAM CLI to package and deploy the code as a Lambda function that is invoked daily by a CloudWatch event. Runs unit tests and the `sam build` and `sam deploy` process via GitHub actions.
