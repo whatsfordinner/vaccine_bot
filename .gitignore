@@ -1,2 +1,3 @@
 vaccine-bot/vaccine-bot
 .aws-sam
+samconfig.toml

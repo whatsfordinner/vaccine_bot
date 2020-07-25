@@ -16,9 +16,9 @@ Resources:
             Enabled: True
       Environment:
         Variables:
-          TWITTER_CONSUMER_KEY:
-          TWITTER_CONSUMER_SECRET:
-          TWITTER_ACCESS_TOKEN:
-          TWITTER_ACCESS_SECRET:
+          TWITTER_CONSUMER_KEY: '{{resolve:secretsmanager:/vaccine-bot/twitter-secrets:SecretString:TwitterConsumerKey}}'
+          TWITTER_CONSUMER_SECRET: '{{resolve:secretsmanager:/vaccine-bot/twitter-secrets:SecretString:TwitterConsumerSecret}}'
+          TWITTER_ACCESS_TOKEN: '{{resolve:secretsmanager:/vaccine-bot/twitter-secrets:SecretString:TwitterAccessToken}}'
+          TWITTER_ACCESS_SECRET: '{{resolve:secretsmanager:/vaccine-bot/twitter-secrets:SecretString:TwitterAccessSecret}}'
     Metadata:
       BuildMethod: makefile

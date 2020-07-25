@@ -30,5 +30,16 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: '^1.14.6'
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE }}
+          role-duration-seconds: 3000
       - name: Building lambda deployment package
         run: sam build
+      - name: Deploying lambda
+        env:
+          DEPLOY_BUCKET: ${{ secrets.SAM_ARTIFACT_BUCKET }}
+        run: sam deploy --bucket "$DEPLOY_BUCKET" --capabilities CAPABILITY_IAM --stack-name vaccine-bot --no-fail-on-empty-changeset
