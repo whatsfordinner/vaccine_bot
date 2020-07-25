@@ -46,4 +46,4 @@ jobs:
           CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
           ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
           ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
-        run: sam deploy --s3-bucket "$DEPLOY_BUCKET" --capabilities CAPABILITY_IAM --stack-name vaccine-bot --no-fail-on-empty-changeset --parameter-overrides ConsumerKey=${CONSUMER_KEY} ConsumerSecret=${CONSUMER_SECRET} AccessToken=${AccessToken} AccessSecret=${ACCESS_SECRET}
+        run: sam deploy --s3-bucket "$DEPLOY_BUCKET" --capabilities CAPABILITY_IAM --stack-name vaccine-bot --no-fail-on-empty-changeset --parameter-overrides ConsumerKey=${CONSUMER_KEY} ConsumerSecret=${CONSUMER_SECRET} AccessToken=${ACCESS_TOKEN} AccessSecret=${ACCESS_SECRET}
