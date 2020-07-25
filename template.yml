@@ -1,4 +1,21 @@
 Transform: AWS::Serverless-2016-10-31
+Parameters:
+  ConsumerKey:
+    Type: String
+    NoEcho: True
+    Description: Consumer Key for accessing the Twitter API
+  ConsumerSecret:
+    Type: String
+    NoEcho: True
+    Description: Consumer Secret for accessing the Twitter API
+  AccessToken:
+    Type: String
+    NoEcho: True
+    Description: Access Token for accessing the Twitter API
+  AccessSecret:
+    Type: String
+    NoEcho: True
+    Description: Access Secret for accessing the Twitter API
 Resources:
   VaccineTweeter:
     Type: AWS::Serverless::Function
@@ -16,9 +33,13 @@ Resources:
             Enabled: True
       Environment:
         Variables:
-          TWITTER_CONSUMER_KEY: '{{resolve:secretsmanager:/vaccine-bot/twitter-secrets:SecretString:TwitterConsumerKey}}'
-          TWITTER_CONSUMER_SECRET: '{{resolve:secretsmanager:/vaccine-bot/twitter-secrets:SecretString:TwitterConsumerSecret}}'
-          TWITTER_ACCESS_TOKEN: '{{resolve:secretsmanager:/vaccine-bot/twitter-secrets:SecretString:TwitterAccessToken}}'
-          TWITTER_ACCESS_SECRET: '{{resolve:secretsmanager:/vaccine-bot/twitter-secrets:SecretString:TwitterAccessSecret}}'
+          TWITTER_CONSUMER_KEY:
+            Ref: ConsumerKey
+          TWITTER_CONSUMER_SECRET:
+            Ref: ConsumerSecret
+          TWITTER_ACCESS_TOKEN:
+            Ref: AccessToken
+          TWITTER_ACCESS_SECRET:
+            Ref: AccessSecret
     Metadata:
       BuildMethod: makefile
