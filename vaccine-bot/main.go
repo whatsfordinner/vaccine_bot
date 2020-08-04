@@ -135,6 +135,7 @@ func sendTweet(newTweet string) error {
 	return nil
 }
 
+// Credit to mad_meesh on stack overflow for this: https://stackoverflow.com/a/51270134
 func prettyPrint(i interface{}) string {
 	s, _ := json.MarshalIndent(i, "", "    ")
 	return string(s)
