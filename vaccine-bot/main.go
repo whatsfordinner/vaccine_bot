@@ -107,7 +107,7 @@ func (dl *diseaseList) getDisease() (string, error) {
 
 func buildTweet(disease string) string {
 	log.Printf("Generating new tweet with disease: %s", disease)
-	return fmt.Sprintf("Vaccinate your kids against %s", disease)
+	return fmt.Sprintf("💉 Get vaccinated against %s", disease)
 }
 
 func sendTweet(newTweet string) error {
@@ -130,9 +130,14 @@ func sendTweet(newTweet string) error {
 		return err
 	}
 
-	log.Printf("Received response:\n\t%v\n\t%v", tweet, resp)
+	log.Printf("Received response:\n%s\n%s", prettyPrint(tweet), prettyPrint(resp))
 
 	return nil
+}
+
+func prettyPrint(i interface{}) string {
+	s, _ := json.MarshalIndent(i, "", "    ")
+	return string(s)
 }
 
 func handleRequest(ctx context.Context, req events.CloudWatchEvent) {
@@ -152,6 +157,12 @@ func handleRequest(ctx context.Context, req events.CloudWatchEvent) {
 	tweet := buildTweet(disease)
 
 	log.Printf("Created new tweet: %s", tweet)
+
+	err = sendTweet(tweet)
+
+	if err != nil {
+		panic(err.Error())
+	}
 }
 
 func main() {
