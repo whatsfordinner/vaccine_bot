@@ -15,15 +15,18 @@ jobs:
   test:
     name: Test code
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./vaccine-bot
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v2
         with:
           go-version: '^1.19.2'
       - name: Download dependencies
-        run: go get -d -v ./vaccine-bot
+        run: go get -d -v
       - name: Running unit tests
-        run: go test -v ./vaccine-bot
+        run: go test -v
   
   deploy:
     name: Build and deploy artifact
