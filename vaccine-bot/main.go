@@ -107,7 +107,7 @@ func (dl *diseaseList) getDisease() (string, error) {
 
 func buildTweet(disease string) string {
 	log.Printf("Generating new tweet with disease: %s", disease)
-	return fmt.Sprintf("💉 Get vaccinated against %s", disease)
+	return fmt.Sprintf("💉 Get #vaccinated against %s", disease)
 }
 
 func sendTweet(newTweet string) error {

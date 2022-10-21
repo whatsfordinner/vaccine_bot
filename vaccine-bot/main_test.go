@@ -145,7 +145,7 @@ func TestGetDisease(t *testing.T) {
 
 func TestBuildTweet(t *testing.T) {
 	testDisease := "foobar"
-	expected := "💉 Get vaccinated against foobar"
+	expected := "💉 Get #vaccinated against foobar"
 	result := buildTweet(testDisease)
 
 	if result != expected {
