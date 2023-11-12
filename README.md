@@ -1,6 +1,6 @@
 # Vaccine Bot
 
-![Build Badge](https://github.com/whatsfordinner/vaccine_bot/workflows/Build/badge.svg)
+This project is no longer deployed because some dipshit billionaire bought twitter and fucked around with the APIs and I couldn't be bothered fixing it.
 
 Twitter bot: [@immunotron](https://twitter.com/immunotron)
 
